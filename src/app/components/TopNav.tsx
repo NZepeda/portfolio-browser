@@ -1,8 +1,9 @@
 "use client";
 
+import { portfolios } from "../data/portfolios";
+
 interface TopNavProps {
   currentIndex: number;
-  total: number;
   onPrev: () => void;
   onNext: () => void;
   onRandom: () => void;
@@ -10,11 +11,15 @@ interface TopNavProps {
 
 export default function TopNav({
   currentIndex,
-  total,
   onPrev,
   onNext,
   onRandom,
 }: TopNavProps) {
+  const current = portfolios[currentIndex];
+
+  const handleOpenInNewTab = () => {
+    window.open(current.url, "_blank", "noopener,noreferrer");
+  };
   return (
     <nav className="flex items-center justify-between gap-4 p-4 bg-gray-100 border-b border-gray-300">
       <div className="flex gap-2">
@@ -37,9 +42,20 @@ export default function TopNav({
           Next →
         </button>
       </div>
-      <span className="text-sm font-medium text-gray-700">
-        {currentIndex + 1} / {total}
-      </span>
+      <a
+        href={current.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 hover:underline text-sm break-all"
+      >
+        {current.url}
+      </a>
+      <button
+        onClick={handleOpenInNewTab}
+        className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors whitespace-nowrap"
+      >
+        Open in new tab ↗
+      </button>
     </nav>
   );
 }
